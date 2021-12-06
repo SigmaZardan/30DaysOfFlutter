@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:make_catalog/utilities/routes.dart';
 
@@ -13,6 +14,25 @@ class _LoginPageState extends State<LoginPage> {
   String name = '';
 
   bool changeButton = false;
+
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  moveToHome(BuildContext context) async {
+    setState(
+      () {
+        changeButton = true;
+      },
+    );
+
+    await Future.delayed(Duration(seconds: 1));
+    await Navigator.pushNamed(context, MyRoutes.homeRoute);
+    setState(() {
+      changeButton = false;
+    });
+  }
 
   Widget buildTickIcon(BuildContext context) {
     return changeButton
@@ -33,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
         color: Colors.white,
         child: SingleChildScrollView(
           child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 Image.asset(
@@ -62,12 +83,28 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: 'Enter username',
                           labelText: 'username',
                         ),
+                        controller: _emailController,
+                        validator: MultiValidator([
+                          RequiredValidator(
+                              errorText: 'Username cannot be empty'),
+                        ]),
                         onChanged: (value) {
                           name = value;
                           setState(() {});
                         }),
                     TextFormField(
                         obscureText: true,
+                        controller: _passwordController,
+                        validator: MultiValidator([
+                          RequiredValidator(
+                              errorText: 'Password cannot be empty'),
+                          MinLengthValidator(6,
+                              errorText:
+                                  'Password length cannot be less than 6'),
+                          MaxLengthValidator(15,
+                              errorText:
+                                  'Password length cannto be more than 15'),
+                        ]),
                         decoration: const InputDecoration(
                             hintText: 'Enter password', labelText: 'password')),
                     const SizedBox(
@@ -80,20 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: InkWell(
                         borderRadius:
                             BorderRadius.circular(changeButton ? 40.0 : 8.0),
-                        onTap: () async {
-                          setState(
-                            () {
-                              changeButton = true;
-                            },
-                          );
-
-                          await Future.delayed(Duration(seconds: 1));
-                          await Navigator.pushNamed(
-                              context, MyRoutes.homeRoute);
-                          setState(() {
-                            changeButton = false;
-                          });
-                        },
+                        onTap: () => moveToHome(context),
                         splashColor: Colors.deepPurple[600],
                         child: AnimatedContainer(
                           duration: Duration(seconds: 1),
