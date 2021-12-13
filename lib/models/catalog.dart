@@ -1,5 +1,5 @@
 class Item {
-  final String id;
+  final num id;
   final String name;
   final String description;
   final num price;
@@ -10,7 +10,9 @@ class Item {
       this.imageBanner);
 }
 
-final products = [
-  Item('product1', 'Iphone 12 Pro Max', 'Apple Iphone 12th Generation', 999,
-      '#33505a', 'assets/images/iphone12.jpg')
-];
+class CatalogModel {
+  static final items = [
+    Item(1, 'Iphone 12 Pro Max', 'Apple Iphone 12th Generation', 999, '#33505a',
+        'assets/images/iphone12.jpg')
+  ];
+}

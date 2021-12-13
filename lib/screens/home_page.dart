@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:make_catalog/models/catalog.dart';
 import 'package:make_catalog/widgets/drawer.dart';
+import 'package:make_catalog/widgets/item_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final dummyList = List.generate(20, (index) => CatalogModel.items[0]);
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
@@ -13,10 +16,15 @@ class HomePage extends StatelessWidget {
           'Catalog App',
         ),
       ),
-      body: Center(
-        child: Container(
-          child: Text('welcome to flutter '),
-        ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.builder(
+            itemCount: dummyList.length,
+            itemBuilder: (context, index) {
+              return ItemWidget(
+                item: dummyList[index],
+              );
+            }),
       ),
       drawer: MyDrawer(),
     ));
