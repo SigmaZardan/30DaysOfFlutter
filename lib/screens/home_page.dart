@@ -9,7 +9,9 @@ class HomePage extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text('Catalog App'),
+        title: Text(
+          'Catalog App',
+        ),
       ),
       body: Center(
         child: Container(
